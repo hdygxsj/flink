@@ -25,8 +25,8 @@ import org.apache.flink.streaming.api.transformations.AbstractMultipleInputTrans
 import static java.util.Objects.requireNonNull;
 
 /**
- * This is a very basic and rough stub for a class connecting multiple input {@link DataStream}s
- * into one, using {@link MultipleInputStreamOperator}.
+* 对于连接多个输入 {@link DataStream}s 的类来说，这是一个非常基本和粗糙的存根
+ * 合二为一，使用 {@link MultipleInputStreamOperator}。
  */
 @Experimental
 public class MultipleConnectedStreams {
