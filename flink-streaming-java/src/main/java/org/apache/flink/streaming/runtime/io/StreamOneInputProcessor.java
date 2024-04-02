@@ -49,7 +49,6 @@ public final class StreamOneInputProcessor<IN> implements StreamInputProcessor {
 
     public StreamOneInputProcessor(
             StreamTaskInput<IN> input, DataOutput<IN> output, BoundedMultiInput endOfInputAware) {
-
         this.input = checkNotNull(input);
         this.output = checkNotNull(output);
         this.endOfInputAware = checkNotNull(endOfInputAware);

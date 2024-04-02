@@ -142,25 +142,25 @@ import static org.apache.flink.util.Preconditions.checkState;
 import static org.apache.flink.util.concurrent.FutureUtils.assertNoException;
 
 /**
- * Base class for all streaming tasks. A task is the unit of local processing that is deployed and
- * executed by the TaskManagers. Each task runs one or more {@link StreamOperator}s which form the
- * Task's operator chain. Operators that are chained together execute synchronously in the same
- * thread and hence on the same stream partition. A common case for these chains are successive
- * map/flatmap/filter tasks.
+* 所有流任务的基类。任务是部署和处理的本地处理单元
+ * 由任务管理器执行。每个任务都会运行一个或多个 {@link StreamOperator}，它们构成
+ * 任务的操作符链。链接在一起的操作符在同一个操作符中同步执行
+ * 线程，因此位于同一流分区上。这些链的常见情况是连续的
+ * 地图/平面地图/过滤器任务。
  *
- * <p>The task chain contains one "head" operator and multiple chained operators. The StreamTask is
- * specialized for the type of the head operator: one-input and two-input tasks, as well as for
- * sources, iteration heads and iteration tails.
+ * <p>任务链包含一个“头”操作符和多个链式操作符。流任务是
+ *专门针对头操作符的类型：一输入和二输入任务，以及
+ * 源、迭代头和迭代尾。
  *
- * <p>The Task class deals with the setup of the streams read by the head operator, and the streams
- * produced by the operators at the ends of the operator chain. Note that the chain may fork and
- * thus have multiple ends.
+ * <p>Task 类处理头操作符读取的流的设置，以及流
+ * 由运营商链末端的运营商产生。请注意，链条可能会分叉并且
+ * 因此有多个末端。
  *
- * <p>The life cycle of the task is set up as follows:
- *
- * <pre>{@code
- * -- setInitialState -> provides state of all operators in the chain
- *
+ * <p>任务的生命周期设置如下：
+ * <p>
+ * <前>{@代码
+ * -- setInitialState -> 提供链中所有操作符的状态
+ * <p>
  * -- invoke()
  *       |
  *       +----> Create basic utils (config, etc) and load the chain of operators
@@ -175,9 +175,9 @@ import static org.apache.flink.util.concurrent.FutureUtils.assertNoException;
  *       +----> task specific cleanup()
  * }</pre>
  *
- * <p>The {@code StreamTask} has a lock object called {@code lock}. All calls to methods on a {@code
- * StreamOperator} must be synchronized on this lock object to ensure that no methods are called
- * concurrently.
+* <p>{@code StreamTask} 有一个名为 {@code lock} 的锁对象。对 {@code 上的方法的所有调用
+ * StreamOperator} 必须在此锁对象上进行同步，以确保没有方法被调用
+ *同时。
  *
  * @param <OUT>
  * @param <OP>

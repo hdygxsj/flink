@@ -227,41 +227,41 @@ public class SplitFetcher<E, SplitT extends SourceSplit> implements Runnable {
         return taskQueue.isEmpty() && !assignedSplits.isEmpty();
     }
 
-    /**
-     * Wake up the fetcher thread. There are only two blocking points in a running fetcher. 1.
-     * Taking the next task out of the task queue. 2. Running a task.
+  /**
+     * 唤醒获取器线程。正在运行的 fetcher 中只有两个阻塞点。 1.
+     * 从任务队列中取出下一个任务。 2. 运行任务。
      *
-     * <p>They need to be waken up differently. If the fetcher is blocking waiting on the next task
-     * in the task queue, we should just interrupt the fetcher thread. If the fetcher is running the
-     * user split reader, we should call SplitReader.wakeUp() instead of naively interrupt the
-     * thread.
+     * <p>他们需要以不同的方式被唤醒。如果获取器阻塞等待下一个任务
+     * 在任务队列中，我们应该中断获取器线程。如果 fetcher 正在运行
+     * 用户拆分阅读器，我们应该调用 SplitReader.wakeUp() 而不是天真地中断
+     * 线。
      *
-     * <p>The correctness can be think of in the following way. The purpose of wake up is to let the
-     * fetcher thread go to the very beginning of the running loop. There are three major events in
-     * each run of the loop.
+     * <p>正确性可以通过以下方式来思考。唤醒的目的是让
+     * fetcher 线程转到运行循环的最开始处。年内有三件大事发生
+     * 每次循环运行。
      *
      * <ol>
-     *   <li>pick a task (blocking)
-     *   <li>assign the task to runningTask variable.
-     *   <li>run the runningTask. (blocking)
+     * <li>选择一个任务（阻塞）
+     * <li>将任务分配给 runningTask 变量。
+     * <li>运行正在运行的任务。 （阻塞）
      * </ol>
      *
-     * <p>We don't need to worry about things after step 3 because there is no blocking point
-     * anymore.
+     * <p>我们不需要担心第3步之后的事情，因为没有阻塞点
+     * 不再了。
      *
-     * <p>We always first set the wakeup flag when waking up the fetcher, then use the value of
-     * running task to determine where the fetcher thread is.
+     * <p>我们总是在唤醒fetcher时首先设置唤醒标志，然后使用
+     * 运行任务来确定获取器线程在哪里。
      *
      * <ul>
-     *   <li>If runningThread is null, it is before step 2, so we should interrupt fetcher. This
-     *       interruption will not be propagated to the split reader, because the wakeUp flag will
-     *       prevent the fetchTask from running.
-     *   <li>If runningThread is not null, it is after step 2. so we should wakeUp the split reader
-     *       instead of interrupt the fetcher.
+     * <li>如果 runningThread 为 null，则它在步骤 2 之前，因此我们应该中断 fetcher。这
+     * 中断不会传播到分割读取器，因为唤醒标志会
+     * 阻止 fetchTask 运行。
+     * <li>如果 runningThread 不为 null，则说明是在步骤 2 之后。所以我们应该唤醒 split reader
+     * 而不是中断提取器。
      * </ul>
      *
-     * <p>The above logic only works in the same {@link #runOnce()} invocation. So we need to
-     * synchronize to ensure the wake up logic do not touch a different invocation.
+     * <p>上述逻辑仅在同一个 {@link #runOnce()} 调用中有效。所以我们需要
+     * 同步以确保唤醒逻辑不会触及不同的调用。
      */
     void wakeUp(boolean taskOnly) {
         // Synchronize to make sure the wake up only works for the current invocation of runOnce().
