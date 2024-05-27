@@ -66,7 +66,7 @@ public class MasterHooks {
                 ExceptionUtils.rethrowIfFatalErrorOrOOM(t);
                 throw new FlinkException(
                         "Error while resetting checkpoint master hook '" + id + '\'', t);
-            }0
+            }
         }
     }
 
