@@ -33,9 +33,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 /**
- * The HighAvailabilityServices give access to all services needed for a highly-available setup. In
- * particular, the services provide access to highly available storage and registries, as well as
- * distributed counters and leader election.
+ * The HighAvailabilityServices give access to all services needed for a highly-available setup. 在
+ * 具体而言，这些服务提供对高可用性存储和注册表的访问，以及
+ * 分布式计数器和领导人选举.
  *
  * <ul>
  *   <li>ResourceManager leader election and leader retrieval

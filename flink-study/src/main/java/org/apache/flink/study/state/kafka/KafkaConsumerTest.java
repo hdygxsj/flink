@@ -20,7 +20,7 @@ public class KafkaConsumerTest {
         props.put("auto.offset.reset", "earliest");
         props.put("isolation.level","read_committed");
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.subscribe(Collections.singletonList("test9")); // 替换为你的实际主题名称
+        consumer.subscribe(Collections.singletonList("test4")); // 替换为你的实际主题名称
         while (true) {
             // 拉取消息
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100)); // 设置轮询间隔
